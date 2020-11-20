@@ -1,4 +1,4 @@
-package main
+package mathexercises
 
 func factorial(x int) int {
 	if x == 1 || x == 0 {

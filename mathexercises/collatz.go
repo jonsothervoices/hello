@@ -1,4 +1,4 @@
-package main
+package mathexercises
 
 func collatzCounter(n uint) uint {
 	if n <= 1 {
