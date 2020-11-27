@@ -4,41 +4,53 @@ import "testing"
 
 func TestRemove(t *testing.T) {
 	var tests = []struct {
-		a        queue
+		a        []interface{}
 		lenExp   int
 		expected interface{}
+		qtype    string
 	}{
-		{queue{[]interface{}{"a", "b", "c", "d", "e"}}, 4, "a"},
-		{queue{[]interface{}{"a"}}, 0, "a"},
-		{queue{[]interface{}{""}}, 0, ""},
-		{queue{[]interface{}{}}, 0, nil},
+		{[]interface{}{"a", "b", "c", "d", "e"}, 4, "a", simpleQueueType},
+		{[]interface{}{"a"}, 0, "a", simpleQueueType},
+		{[]interface{}{""}, 0, "", simpleQueueType},
+		{[]interface{}{}, 0, nil, simpleQueueType},
+		{[]interface{}{"a", "b", "c", "d", "e"}, 4, "a", stackQueueType},
+		{[]interface{}{"a"}, 0, "a", stackQueueType},
+		{[]interface{}{""}, 0, "", stackQueueType},
+		{[]interface{}{}, 0, nil, stackQueueType},
 	}
 	for i, datest := range tests {
-		actual := datest.a.remove()
+		q := queueFactory(datest.qtype, datest.a)
+		actual := q.remove()
 		if datest.expected != actual {
 			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
 		}
-		if datest.a.len() != datest.lenExp {
-			t.Errorf("%v: length %v, expected %v", i, len(datest.a.data), datest.lenExp)
+		if q.len() != datest.lenExp {
+			t.Errorf("%v: length %v, expected %v", i, q.len(), datest.lenExp)
 		}
 	}
 }
 
 func TestAdd(t *testing.T) {
 	var tests = []struct {
-		a        queue
+		a        []interface{}
 		b        string
 		expected string
 		lenExp   int
+		qtype    string
 	}{
-		{queue{[]interface{}{"a", "b", "c", "d"}}, "e", "a", 5},
-		{queue{[]interface{}{"a"}}, "b", "a", 2},
-		{queue{[]interface{}{""}}, "", "", 2},
-		{queue{[]interface{}{}}, "", "", 1},
+		{[]interface{}{"a", "b", "c", "d"}, "e", "a", 5, simpleQueueType},
+		{[]interface{}{"a"}, "b", "a", 2, simpleQueueType},
+		{[]interface{}{""}, "", "", 2, simpleQueueType},
+		{[]interface{}{}, "", "", 1, simpleQueueType},
+		{[]interface{}{"a", "b", "c", "d"}, "e", "a", 5, stackQueueType},
+		{[]interface{}{"a"}, "b", "a", 2, stackQueueType},
+		{[]interface{}{""}, "", "", 2, stackQueueType},
+		{[]interface{}{}, "", "", 1, stackQueueType},
 	}
 	for i, datest := range tests {
-		datest.a.add(datest.b)
-		actual := datest.a.peek()
+		q := queueFactory(simpleQueueType, datest.a)
+		q.add(datest.b)
+		actual := q.peek()
 		if datest.expected != actual {
 			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
 		}
@@ -47,16 +59,21 @@ func TestAdd(t *testing.T) {
 
 func TestPeek(t *testing.T) {
 	var tests = []struct {
-		a        queue
-		expected string
+		a        []interface{}
+		expected interface{}
+		qtype    string
 	}{
-		{queue{[]interface{}{"a", "b", "c", "d"}}, "a"},
-		{queue{[]interface{}{"a"}}, "a"},
-		{queue{[]interface{}{""}}, ""},
+		{[]interface{}{"a", "b", "c", "d"}, "a", simpleQueueType},
+		{[]interface{}{"a"}, "a", simpleQueueType},
+		{[]interface{}{""}, "", simpleQueueType},
+		{[]interface{}{"a", "b", "c", "d"}, "a", stackQueueType},
+		{[]interface{}{"a"}, "a", stackQueueType},
+		{[]interface{}{""}, "", stackQueueType},
 	}
 	for i, datest := range tests {
-		actual := datest.a.peek()
-		actual2 := datest.a.peek()
+		q := queueFactory(simpleQueueType, datest.a)
+		actual := q.peek()
+		actual2 := q.peek()
 		if datest.expected != actual {
 			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
 		}
