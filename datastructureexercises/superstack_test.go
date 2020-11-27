@@ -1,7 +1,18 @@
 package datastructureexercises
 
-import "testing"
+import (
+	"testing"
+)
 
+func numStackCheck(in int) int {
+	if in == 0 {
+		return 0
+	}
+	if in%5 == 0 {
+		return in / 5
+	}
+	return in/5 + 1
+}
 func TestSuperstackPop(t *testing.T) {
 	var tests = []struct {
 		a        []interface{}
@@ -16,61 +27,78 @@ func TestSuperstackPop(t *testing.T) {
 		{[]interface{}{}, 0, nil},
 	}
 	for i, datest := range tests {
-		sa := superstack{}
-		for _, d := range datest.a {
-			sa.push(d)
-		}
+		//each iteration, we build the superstack from test data (d)
+		sa := newSuperStack(datest.a)
 		actual := sa.pop()
+		//did we pop the right thing?
 		if datest.expected != actual {
 			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
 		}
+		//did we properly alter the length of our superstack?
 		if sa.len() != datest.lenExp {
 			t.Errorf("%v: length %v, expected %v", i, sa.len(), datest.lenExp)
 		}
-		if sa.numStacks() != (len(datest.a)-1)/5+1 {
-			t.Errorf("%v: numStacks %v, expected %v", i, sa.numStacks(), (len(datest.a)-1)/5+1)
+		//did we remove the empty stack at the end if we have one?
+		if len(datest.a) == 0 {
+			if sa.numStacks() != 0 {
+				t.Errorf("%v: numStacks %v, expected %v", i, sa.numStacks(), 0)
+			}
+		} else if sa.numStacks() != numStackCheck(len(datest.a)-1) {
+			t.Errorf("%v: numStacks %v, expected %v", i, sa.numStacks(), numStackCheck(len(datest.a)-1))
 		}
 	}
 }
 
 func TestSuperstackPush(t *testing.T) {
 	var tests = []struct {
-		a        stack
+		a        []interface{}
 		b        string
 		expected string
 		lenExp   int
 	}{
-		{stack{[]interface{}{"a", "b", "c", "d"}}, "e", "e", 5},
-		{stack{[]interface{}{"a"}}, "b", "b", 2},
-		{stack{[]interface{}{""}}, "", "", 2},
-		{stack{[]interface{}{}}, "", "", 1},
+		{[]interface{}{"a", "b", "c", "d", "e"}, "f", "f", 6},
+		{[]interface{}{"a", "b", "c", "d"}, "e", "e", 5},
+		{[]interface{}{"a"}, "b", "b", 2},
+		{[]interface{}{""}, "", "", 2},
+		{[]interface{}{}, "", "", 1},
 	}
 	for i, datest := range tests {
-		datest.a.push(datest.b)
-		actual := datest.a.peek()
+		//each iteration, we build the superstack from test data (d)
+		sa := newSuperStack(datest.a)
+		sa.push(datest.b)
+		actual := sa.peek()
 		if datest.expected != actual {
 			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+		if sa.numStacks() != numStackCheck(len(datest.a)+1) {
+			t.Errorf("%v: numStacks %v, expected %v", i, sa.numStacks(), numStackCheck(len(datest.a)+1))
 		}
 	}
 }
 
 func TestSuperstackPeek(t *testing.T) {
 	var tests = []struct {
-		a        stack
-		expected string
+		a        []interface{}
+		expected interface{}
 	}{
-		{stack{[]interface{}{"a", "b", "c", "d"}}, "d"},
-		{stack{[]interface{}{"a"}}, "a"},
-		{stack{[]interface{}{""}}, ""},
+		{[]interface{}{"a", "b", "c", "d", "e", "f", "g"}, "g"},
+		{[]interface{}{"a", "b", "c", "d"}, "d"},
+		{[]interface{}{"a"}, "a"},
+		{[]interface{}{""}, ""},
+		{[]interface{}{}, nil},
 	}
 	for i, datest := range tests {
-		actual := datest.a.peek()
-		actual2 := datest.a.peek()
+		sa := newSuperStack(datest.a)
+		actual := sa.peek()
+		actual2 := sa.peek()
 		if datest.expected != actual {
 			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
 		}
 		if actual != actual2 {
 			t.Errorf("%v: stack altered from %v to %v", i, actual, actual2)
+		}
+		if sa.numStacks() != numStackCheck(len(datest.a)) {
+			t.Errorf("%v: numStacks %v, expected %v", i, sa.numStacks(), numStackCheck(len(datest.a)))
 		}
 	}
 }
