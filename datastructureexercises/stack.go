@@ -4,6 +4,15 @@ type stack struct {
 	data []interface{}
 }
 
+//create new stack
+func newStack(in []interface{}) *stack {
+	newS := stack{}
+	for _, d := range in {
+		newS.push(d)
+	}
+	return &newS
+}
+
 //length functtion
 func (s *stack) len() int {
 	return len(s.data)
