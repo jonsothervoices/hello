@@ -25,18 +25,27 @@ func TestFindRoute(t *testing.T) {
 			1: {11, 12, 13},
 			2: {21, 22, 23},
 			3: {31, 32, 33},
-		}, 1, 33, true},
+		}, 0, 33, true},
 		{map[interface{}][]interface{}{
-			0:  {1, 2},
+			0:  {1, 2, 3},
 			1:  {11, 12, 13},
 			2:  {21, 22, 23},
 			3:  {31, 32, 33},
 			13: {0, 1, 2},
 		}, 1, 33, true},
+		{map[interface{}][]interface{}{
+			0: {1, 2, 3},
+			1: {11, 12, 13},
+			2: {21, 22, 23},
+			3: {31, 32, 33},
+		}, 1, 1, true},
 	}
 	for i, datest := range tests {
 		g := newDirectedGraph(datest.g, datastructureexercises.IntComparer)
-		actual := g.findRoute(datest.a, datest.b)
+		actual, err := g.findRoute(datest.a, datest.b)
+		if err != nil {
+			t.Errorf("%v: error: %v", i, err)
+		}
 		if datest.expected != actual {
 			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
 		}
