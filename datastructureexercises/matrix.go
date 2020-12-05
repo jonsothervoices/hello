@@ -4,6 +4,7 @@ package datastructureexercises
 
 type matrix [][]string
 
+//rotate has O(n^2)
 func (m matrix) rotate() {
 	max := len(m) - 1
 	for y := 0; y <= max/2; y++ {

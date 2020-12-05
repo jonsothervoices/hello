@@ -1,7 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"hello/stringexercises"
+)
 
 func main() {
 	fmt.Println("Hello, world!")
+	stringexercises.FizzBuzz()
 }
