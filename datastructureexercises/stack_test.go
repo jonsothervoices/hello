@@ -66,3 +66,36 @@ func TestQueuePeek(t *testing.T) {
 		}
 	}
 }
+
+func TestMin(t *testing.T) {
+	var tests = []struct {
+		a        []interface{}
+		expected interface{}
+	}{
+		{[]interface{}{0, 2, 5, 12, 110}, 0},
+		{[]interface{}{110, 72, 50, 12, 11}, 11},
+		{[]interface{}{0, 2, 5, 0, 11}, 0},
+		{[]interface{}{3, -10, 0, 5, 33}, -10},
+		{[]interface{}{4}, 4},
+		{[]interface{}{}, nil},
+	}
+
+	for i, datest := range tests {
+		newM := newMinStack(datest.a, IntComparer)
+		actual := newM.findmin()
+		if datest.expected != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+		intExp, _ := datest.expected.(int)
+		newM.push(intExp - 1)
+		actual = newM.findmin()
+		if intExp-1 != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+		newM.pop()
+		actual = newM.findmin()
+		if datest.expected != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
