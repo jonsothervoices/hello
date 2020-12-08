@@ -64,8 +64,6 @@ func (g *node) findRoute(a, b interface{}) (bool, error) {
 	if na == nil {
 		return false, fmt.Errorf("%v is not in graph", a)
 	}
-	fmt.Println(na.data)
 	nb := na.findNode(b, nil)
-	fmt.Println(na.data)
 	return nb != nil, nil
 }
