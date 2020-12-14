@@ -1,6 +1,6 @@
 package graphexercises
 
-//given a sorted array with unique integer elements, write a program ti create a binary search tree with miunimal height.
+//given a sorted array with unique integer elements, write a program to create a binary search tree with miunimal height.
 
 //Binary search tree: no more than two children per node, all Left children <=n,all Right children, where n is the value of the node element.
 
