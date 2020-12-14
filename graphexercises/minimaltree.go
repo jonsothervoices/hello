@@ -5,12 +5,12 @@ package graphexercises
 //Binary search tree: no more than two children per node, all Left children <=n,all Right children, where n is the value of the node element.
 
 type bst struct {
-	Data  interface{}
+	Data  int
 	Left  *bst
 	Right *bst
 }
 
-func newBST(in []interface{}) *bst {
+func newBST(in []int) *bst {
 	if len(in) == 0 {
 		return nil
 	}

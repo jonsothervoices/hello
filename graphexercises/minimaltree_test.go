@@ -8,15 +8,15 @@ import (
 
 func TestNewBST(t *testing.T) {
 	var tests = []struct {
-		d        []interface{}
+		d        []int
 		expected string
 	}{
-		{[]interface{}{0, 1, 2, 3, 4, 5, 6, 7}, `{"Data":4,"Left":{"Data":2,"Left":{"Data":1,"Left":{"Data":0,"Left":null,"Right":null},"Right":null},"Right":{"Data":3,"Left":null,"Right":null}},"Right":{"Data":6,"Left":{"Data":5,"Left":null,"Right":null},"Right":{"Data":7,"Left":null,"Right":null}}}`},
-		{[]interface{}{0, 1, 2, 3, 4, 5, 6}, `{"Data":3,"Left":{"Data":1,"Left":{"Data":0,"Left":null,"Right":null},"Right":{"Data":2,"Left":null,"Right":null}},"Right":{"Data":5,"Left":{"Data":4,"Left":null,"Right":null},"Right":{"Data":6,"Left":null,"Right":null}}}`},
-		{[]interface{}{0, 1, 2}, `{"Data":1,"Left":{"Data":0,"Left":null,"Right":null},"Right":{"Data":2,"Left":null,"Right":null}}`},
-		{[]interface{}{0, 1}, `{"Data":1,"Left":{"Data":0,"Left":null,"Right":null},"Right":null}`},
-		{[]interface{}{0}, `{"Data":0,"Left":null,"Right":null}`},
-		{[]interface{}{}, "null"},
+		{[]int{0, 1, 2, 3, 4, 5, 6, 7}, `{"Data":4,"Left":{"Data":2,"Left":{"Data":1,"Left":{"Data":0,"Left":null,"Right":null},"Right":null},"Right":{"Data":3,"Left":null,"Right":null}},"Right":{"Data":6,"Left":{"Data":5,"Left":null,"Right":null},"Right":{"Data":7,"Left":null,"Right":null}}}`},
+		{[]int{0, 1, 2, 3, 4, 5, 6}, `{"Data":3,"Left":{"Data":1,"Left":{"Data":0,"Left":null,"Right":null},"Right":{"Data":2,"Left":null,"Right":null}},"Right":{"Data":5,"Left":{"Data":4,"Left":null,"Right":null},"Right":{"Data":6,"Left":null,"Right":null}}}`},
+		{[]int{0, 1, 2}, `{"Data":1,"Left":{"Data":0,"Left":null,"Right":null},"Right":{"Data":2,"Left":null,"Right":null}}`},
+		{[]int{0, 1}, `{"Data":1,"Left":{"Data":0,"Left":null,"Right":null},"Right":null}`},
+		{[]int{0}, `{"Data":0,"Left":null,"Right":null}`},
+		{[]int{}, "null"},
 	}
 	for i, datest := range tests {
 		g := newBST(datest.d)
