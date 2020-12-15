@@ -19,7 +19,7 @@ func TestNewBST(t *testing.T) {
 		{[]int{}, "null"},
 	}
 	for i, datest := range tests {
-		g := newBST(datest.d)
+		g := newBST(datest.d, nil)
 		actual, err := json.Marshal(g)
 		if err != nil && datest.expected != "null" {
 			fmt.Println(err)
