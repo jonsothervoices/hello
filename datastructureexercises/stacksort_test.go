@@ -32,7 +32,7 @@ func TestSort(t *testing.T) {
 		},
 		{
 			a:        newStack([]interface{}{"b", "c", "a", "A", "r"}),
-			b:        strComparer,
+			b:        StrComparer,
 			expected: newStack([]interface{}{"r", "c", "b", "a", "A"}),
 		},
 	}

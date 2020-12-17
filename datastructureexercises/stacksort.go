@@ -19,9 +19,9 @@ func IntComparer(a, b interface{}) int {
 	return 1
 }
 
-func strComparer(a, b interface{}) int {
+func StrComparer(a, b interface{}) int {
 	if a == nil || b == nil {
-		return 0
+		return -2
 	}
 	return strings.Compare(a.(string), b.(string))
 }
