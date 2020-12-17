@@ -3,6 +3,7 @@ package graphexercises
 import (
 	"fmt"
 	"hello/datastructureexercises"
+	"sort"
 )
 
 //Given a directed graph, design an algorithm to find out whether there is a route between two nodes.
@@ -16,13 +17,22 @@ type node struct {
 func newDirectedGraph(in map[interface{}][]interface{}, compare datastructureexercises.Comparer) *node {
 	m := make(map[interface{}]*node)
 	g := &node{comparer: compare}
-	for k, v := range in {
+	s := []interface{}{}
+	for k := range in {
+		s = append(s, k)
+	}
+	sort.Slice(s, func(i, j int) bool {
+		s1 := fmt.Sprintf("%v", s[i])
+		s2 := fmt.Sprintf("%v", s[j])
+		return s1 < s2
+	})
+	for _, k := range s {
 		parent, ok := m[k]
 		if !ok {
 			parent = &node{data: k, comparer: compare}
 			m[k] = parent
 		}
-		for _, c := range v {
+		for _, c := range in[k] {
 			child, ok := m[c]
 			if !ok {
 				child = &node{data: c, comparer: compare}

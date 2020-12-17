@@ -2,8 +2,6 @@ package graphexercises
 
 import (
 	"fmt"
-	"hello/datastructureexercises"
-	"sort"
 )
 
 // You are given a list of projects and a list of dependencies (which is a list of pairs of  projects, where the first project is dependent on the second project). All of a project's dependencies must be built before the project is. Find a build order that will allow the projects to be built. If there is no valid build order, return an error.
@@ -21,36 +19,36 @@ import (
 // 	return fmt.Sprintf(`{"Data": "%v", "children": [%v]}`, g.data, strings.Join(c, ","))
 // }
 
-func newOrderGraph(in map[interface{}][]interface{}, compare datastructureexercises.Comparer) *node {
-	m := make(map[interface{}]*node)
-	g := &node{comparer: compare}
-	s := []interface{}{}
-	for k := range in {
-		s = append(s, k)
-	}
-	sort.Slice(s, func(i, j int) bool {
-		s1 := fmt.Sprintf("%v", s[i])
-		s2 := fmt.Sprintf("%v", s[j])
-		return s1 < s2
-	})
-	for _, k := range s {
-		parent, ok := m[k]
-		if !ok {
-			parent = &node{data: k, comparer: compare}
-			m[k] = parent
-		}
-		for _, c := range in[k] {
-			child, ok := m[c]
-			if !ok {
-				child = &node{data: c, comparer: compare}
-				m[c] = child
-			}
-			parent.children = append(parent.children, child)
-		}
-		g.children = append(g.children, parent)
-	}
-	return g
-}
+// func newOrderGraph(in map[interface{}][]interface{}, compare datastructureexercises.Comparer) *node {
+// 	m := make(map[interface{}]*node)
+// 	g := &node{comparer: compare}
+// 	s := []interface{}{}
+// 	for k := range in {
+// 		s = append(s, k)
+// 	}
+// 	sort.Slice(s, func(i, j int) bool {
+// 		s1 := fmt.Sprintf("%v", s[i])
+// 		s2 := fmt.Sprintf("%v", s[j])
+// 		return s1 < s2
+// 	})
+// 	for _, k := range s {
+// 		parent, ok := m[k]
+// 		if !ok {
+// 			parent = &node{data: k, comparer: compare}
+// 			m[k] = parent
+// 		}
+// 		for _, c := range in[k] {
+// 			child, ok := m[c]
+// 			if !ok {
+// 				child = &node{data: c, comparer: compare}
+// 				m[c] = child
+// 			}
+// 			parent.children = append(parent.children, child)
+// 		}
+// 		g.children = append(g.children, parent)
+// 	}
+// 	return g
+// }
 
 func (g *node) buildOrder() ([]interface{}, error) {
 	m := make(map[interface{}]int)

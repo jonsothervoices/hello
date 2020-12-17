@@ -30,7 +30,7 @@ func TestBuildOrder(t *testing.T) {
 				nil},
 	}
 	for i, datest := range tests {
-		g := newOrderGraph(datest.g, datastructureexercises.StrComparer)
+		g := newDirectedGraph(datest.g, datastructureexercises.StrComparer)
 		// fmt.Printf("%v\n", g)
 		actual, err := g.buildOrder()
 		if err == nil && !datest.isValid {
