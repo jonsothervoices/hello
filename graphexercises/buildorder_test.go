@@ -20,14 +20,14 @@ func TestBuildOrder(t *testing.T) {
 			"d": {"b", "a"},
 			"f": {}}, true,
 			[]interface{}{"f", "a", "b", "d", "c", "e"}},
-			{map[interface{}][]interface{}{
-				"e": {},
-				"c": {"d"},
-				"a": {"f"},
-				"b": {"f"},
-				"d": {"b", "a"},
-				"f": {"d"}}, false,
-				nil},
+		{map[interface{}][]interface{}{
+			"e": {},
+			"c": {"d"},
+			"a": {"f"},
+			"b": {"f"},
+			"d": {"b", "a"},
+			"f": {"d"}}, false,
+			nil},
 	}
 	for i, datest := range tests {
 		g := newDirectedGraph(datest.g, datastructureexercises.StrComparer)

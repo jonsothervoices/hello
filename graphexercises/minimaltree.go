@@ -11,6 +11,7 @@ type bst struct {
 	parent *bst
 }
 
+//newBST will return a binary search tree only if the input slice is sorted; otherwise it will just be a binary tree.
 func newBST(in []int, parent *bst) *bst {
 	if len(in) == 0 {
 		return nil
