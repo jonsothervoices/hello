@@ -11,12 +11,13 @@ func TestCommonAncestor(t *testing.T) {
 		b        int
 		expected int
 	}{
+		{[]int{0, 1, 2, 3, 4, 5, 6, 7}, 3, 8, -1},
 		{[]int{0, 1, 2, 3, 4, 5, 6, 7}, 3, 0, 2},
-		// {[]int{0, 1, 2, 3, 4, 5, 6}, `{"Data":3,"Left":{"Data":1,"Left":{"Data":0,"Left":null,"Right":null},"Right":{"Data":2,"Left":null,"Right":null}},"Right":{"Data":5,"Left":{"Data":4,"Left":null,"Right":null},"Right":{"Data":6,"Left":null,"Right":null}}}`},
-		// {[]int{0, 1, 2}, `{"Data":1,"Left":{"Data":0,"Left":null,"Right":null},"Right":{"Data":2,"Left":null,"Right":null}}`},
-		// {[]int{0, 1}, `{"Data":1,"Left":{"Data":0,"Left":null,"Right":null},"Right":null}`},
-		// {[]int{0}, `{"Data":0,"Left":null,"Right":null}`},
-		// {[]int{}, "null"},
+		{[]int{0, 5, 3, 2, 4, 1, 6}, 3, 2, 2},
+		{[]int{1, 0, 2}, 1, 2, 0},
+		{[]int{0, 1}, 1, 0, 1},
+		{[]int{0}, 0, 3, -1},
+		{[]int{}, 4, 2, -1},
 	}
 	for i, datest := range tests {
 		bt := newBST(datest.d, nil)
