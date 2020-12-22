@@ -101,19 +101,18 @@ func (t *bst) successor() *bst {
 	return nil
 }
 
-//finds a specific node of a bst
-func (t *bst) find(i int) *bst {
+func (t *bst) find(n int) *bst {
 	if t == nil {
 		return nil
 	}
-	if t.Data == i {
+	if t.Data == n {
 		return t
 	}
-	if t.Data < i && t.Right != nil {
-		return t.Right.find(i)
+	if t.Right != nil && t.Data < n {
+		return t.Right.find(n)
 	}
-	if t.Data > i && t.Left != nil {
-		return t.Left.find(i)
+	if t.Left != nil {
+		return t.Left.find(n)
 	}
 	return nil
 }
@@ -169,7 +168,7 @@ func (t *bst) getRandomNode() (int, error) {
 	rand.Seed(time.Now().UnixNano())
 	// call rand bounded by slice length
 	rInt := intn(len(s))
-	fmt.Println(rInt, s)
+	// fmt.Println(rInt, s)
 	//return slice value at index from rand
 	return s[rInt], nil
 }

@@ -12,6 +12,54 @@ type node struct {
 	comparer datastructureexercises.Comparer
 }
 
+//Depth First Search
+func (g *node) depthFind(a interface{}, m map[interface{}]bool) *node {
+	// fmt.Printf("Looking for node %v in %v\n", a, g.data)
+	if m == nil {
+		m = make(map[interface{}]bool)
+	}
+	if m[g.data] {
+		return nil
+	}
+	m[g.data] = true
+	if g.data != nil && g.comparer(g.data, a) == 0 {
+		return g
+	}
+	for _, c := range g.children {
+		f := c.depthFind(a, m)
+		if f != nil {
+			return f
+		}
+	}
+	return nil
+}
+
+// Breadth First Search
+func (g *node) breadthFind(a interface{}, m map[interface{}]bool) *node {
+	if m == nil {
+		m = make(map[interface{}]bool)
+	}
+	if m[g.data] {
+		return nil
+	}
+	m[g.data] = true
+	if (g.data == nil && a == nil) || (g.data != nil && g.comparer(g.data, a) == 0) {
+		return g
+	}
+	for _, c := range g.children {
+		if c.data != nil && g.comparer(c.data, a) == 0 {
+			return c
+		}
+	}
+	for _, c := range g.children {
+		f := c.breadthFind(a, m)
+		if f != nil {
+			return f
+		}
+	}
+	return nil
+}
+
 //Directed graph constructor
 func newDirectedGraph(in map[interface{}][]interface{}, compare datastructureexercises.Comparer) *node {
 	m := make(map[interface{}]*node)

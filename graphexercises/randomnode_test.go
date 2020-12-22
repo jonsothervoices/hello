@@ -1,7 +1,6 @@
 package graphexercises
 
 import (
-	"fmt"
 	"math/rand"
 	"testing"
 )
@@ -25,7 +24,7 @@ func TestGetRandomNode(t *testing.T) {
 	}
 	for i, datest := range tests {
 		intn = func(i int) int {
-			fmt.Printf("stubbed intN returning %v\n", i)
+			// fmt.Printf("stubbed intN returning %v\n", i)
 			return datest.seed
 		}
 		bt := newBST(datest.d, nil)
