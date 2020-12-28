@@ -78,3 +78,25 @@ func TestClearBit(t *testing.T) {
 		}
 	}
 }
+
+//5.1 Insertion test (test data be flipped!!!)
+func TestInsertBits(t *testing.T) {
+	var tests = []struct {
+		m        int
+		n        int
+		i        int
+		expected int
+	}{
+		{9, 20, 3, 25},
+		{9, 2, 5, 38},
+		{10, 4, 7, 164},
+		{1, 20, 3, 28},
+		{7, -255, 5, -199},
+	}
+	for i, datest := range tests {
+		actual := insertBits(datest.n, datest.m, datest.i)
+		if datest.expected != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
