@@ -195,42 +195,42 @@ var intn = rand.Intn
 //4.12 paths with sum: Given a binary search tree with intgewr elements, write a program to count the nuymber of paths that sum to a given value. The path does not need to start or end at the root or leaf, but it must go downwards.
 
 //t=4, 2, 1
-//n=10, 6, 4
-//ret=0, 0, 0
+//n=
+//ret=
 
 func (t *bst) pathSum(n int) int {
-	return t.doPathSum(n, n)
+	return t.doPathSum([]int{n}, n)
 }
 
-func (t *bst) doPathSum(n, c int) int {
-	// fmt.Printf("starting from node %v, looking for %v\n", t.Data, c)
+func (t *bst) doPathSum(nSlice []int, c int) int {
+	//fmt.Printf("starting from node %v, looking for %v\n", t.Data, nSlice)
 	ret := 0
 	if t == nil {
 		return 0
 	}
-	if t.Data == n {
-		ret++
-		fmt.Printf("found a path at node %v\n", t.Data)
+	for _, v := range nSlice {
+		if v == t.Data {
+			ret++
+		}
 	}
 	if t.Left != nil {
-		// if t.Data+t.Left.Data == n {
-		// 	ret++
-		// 	fmt.Printf("found a path from node %v to node %v\n", t.Data, t.Left.Data)
-		// }
-		fmt.Printf("Checking %v for altered sum %v\n", t.Left.Data, n-t.Data)
-		ret += t.Left.doPathSum(n-t.Data, c)
-		fmt.Printf("Checking %v for original sum %v\n", t.Left.Data, c)
-		ret += t.Left.doPathSum(c, c)
+		d := []int{c}
+		for _, v := range nSlice {
+			d = append(d, v-t.Data)
+		}
+		ret += t.Left.doPathSum(d, c)
 	}
-	if t.Right != nil && t.Data <= n {
-		// if t.Data+t.Right.Data == n {
-		// 	fmt.Printf("found a path from node %v to node %v\n", t.Data, t.Right.Data)
-		// 	ret++
-		// }
-		fmt.Printf("Checking %v for altered sum %v\n", t.Right.Data, n-t.Data)
-		ret += t.Right.doPathSum(n-t.Data, c)
-		fmt.Printf("Checking %v for original sum %v\n", t.Right.Data, c)
-		ret += t.Right.doPathSum(c, c)
+	if t.Right != nil {
+		d := []int{}
+		if t.Data <= c {
+			d = append(d, c)
+		}
+		for _, v := range nSlice {
+			if t.Data <= v-t.Data {
+				d = append(d, v-t.Data)
+			}
+		}
+		ret += t.Right.doPathSum(d, c)
 	}
 	return ret
 }
