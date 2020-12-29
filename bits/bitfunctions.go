@@ -1,7 +1,9 @@
 package bits
 
 import (
+	"fmt"
 	"strconv"
+	"strings"
 )
 
 func getBit(n, b int) bool { return (1<<b)&n != 0 }
@@ -36,21 +38,55 @@ func insertBits(n, m, i int) int {
 
 //5.3 Flip bit to Win: Given an integer, find the length of the longest sequece of 1s you could create by flipping 1 bit.
 
-// func flipToWin(n int) int{
-// 	//create slice from n
-// 	nBin := strconv.FormatInt(int64(n), 2)
-// 	l:= len(nBin)-1
-// 	counter:=0
-// 	seq1:=0
-// 	seq2:=2
-// 	//find the 2 longest sequences of 1 that are seperated by 1 zero
-// 	for i:=l;i>=0; i--{
-// 		if nBin[l]==1{
-// 			counter++
-// 		}
-// 		else {
-// 			seq1=counter
-// 		}
-// 	}
-// 	//return the length of those 2 sequences plus 1
-// }
+func flipToWin(n int) int {
+	ans := 0
+	nInt := int64(n)
+	nBin := strconv.FormatInt(nInt, 2)
+	if !strings.Contains(nBin, "0") {
+		return len(nBin)
+	}
+	for i, v := range nBin {
+		if v == '0' {
+			if zeroNextToOne(nBin, i) {
+				sum := lSum(nBin, i) + rSum(nBin, i)
+				fmt.Printf("lsum %v, rsum %v\n", lSum(nBin, i), rSum(nBin, i))
+				if sum > ans {
+					ans = sum
+				}
+			}
+		}
+	}
+	return ans + 1
+}
+
+func zeroNextToOne(s string, i int) bool {
+	if i == 0 {
+		if len(s) > 1 {
+			return s[i+1] == '1'
+		}
+		return true
+	}
+	if i == len(s)-1 {
+		if len(s) > 1 {
+			return s[i-1] == '1'
+		}
+		return true
+	}
+	return s[i+1] == '1' || s[i-1] == '1'
+}
+
+func lSum(s string, n int) int {
+	ret := 0
+	for i := n - 1; i >= 0 && s[i] != '0'; i-- {
+		ret++
+	}
+	return ret
+}
+
+func rSum(s string, n int) int {
+	ret := 0
+	for i := n + 1; i < len(s) && s[i] != '0'; i++ {
+		ret++
+	}
+	return ret
+}

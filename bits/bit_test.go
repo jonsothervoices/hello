@@ -100,3 +100,94 @@ func TestInsertBits(t *testing.T) {
 		}
 	}
 }
+
+func TestFlipToWin(t *testing.T) {
+	var tests = []struct {
+		n        int
+		expected int
+	}{
+		{5, 3},
+		{15, 4},
+		{16, 2},
+		{17, 2},
+		{30, 5},
+		{0, 1},
+		{11, 4},
+		{19, 3},
+	}
+	for i, datest := range tests {
+		actual := flipToWin(datest.n)
+		if datest.expected != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
+
+func TestZeroNextToOne(t *testing.T) {
+	var tests = []struct {
+		s        string
+		i        int
+		expected bool
+	}{
+		{"00111011", 5, true},
+		{"00111011", 1, true},
+		{"00111011", 0, false},
+		{"0100111011", 0, true},
+		{"001110110", 8, true},
+		{"0", 0, true},
+		{"00", 0, false},
+		{"010", 2, true},
+	}
+	for i, datest := range tests {
+		actual := zeroNextToOne(datest.s, datest.i)
+		if datest.expected != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
+
+func TestLSum(t *testing.T) {
+	var tests = []struct {
+		s        string
+		i        int
+		expected int
+	}{
+		{"00111011", 5, 3},
+		{"00111011", 3, 1},
+		{"00111011", 6, 0},
+		{"0100111011", 9, 1},
+		{"001110110", 0, 0},
+		{"0", 0, 0},
+		{"00", 1, 0},
+		{"010", 2, 1},
+	}
+	for i, datest := range tests {
+		actual := lSum(datest.s, datest.i)
+		if datest.expected != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
+
+func TestRSum(t *testing.T) {
+	var tests = []struct {
+		s        string
+		i        int
+		expected int
+	}{
+		{"00111011", 1, 3},
+		{"00111011", 0, 0},
+		{"00111011", 7, 0},
+		{"0100111011", 0, 1},
+		{"001110110", 1, 3},
+		{"0", 0, 0},
+		{"00", 1, 0},
+		{"010", 0, 1},
+	}
+	for i, datest := range tests {
+		actual := rSum(datest.s, datest.i)
+		if datest.expected != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
