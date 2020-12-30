@@ -1,6 +1,7 @@
 package bits
 
 import (
+	"math"
 	"testing"
 )
 
@@ -186,6 +187,110 @@ func TestRSum(t *testing.T) {
 	}
 	for i, datest := range tests {
 		actual := rSum(datest.s, datest.i)
+		if datest.expected != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
+
+func TestNextLNum(t *testing.T) {
+	var tests = []struct {
+		n        int64
+		expected int64
+	}{
+		{9, 10},    //1001, 1010
+		{59, 61},   //00111011, 00111101
+		{315, 317}, //0100111011, 0100111101
+		{64, 128},  //01000000, 10000000
+		{63, 95},   //00111111, 01011111
+		{1, 2},     //00000001, 00000010
+		{0, 0},     //00000000, 00000000
+		{4294967295, 6442450943},
+		{math.MaxInt64, 0},
+		{math.MaxInt64 - 1, 0},
+	}
+	for i, datest := range tests {
+		actual, err := nextLNum(datest.n)
+		if err != nil && datest.expected != 0 {
+			t.Errorf("%v: actual %v, expected %v", i, actual, err)
+			t.FailNow()
+		}
+		if err == nil && datest.expected == 0 {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+			t.FailNow()
+		}
+		if datest.expected != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
+
+func TestNextSNum(t *testing.T) {
+	var tests = []struct {
+		n        int64
+		expected int64
+	}{
+		{9, 5},     //1001, 0101
+		{59, 55},   //00111011, 00110111
+		{315, 311}, //0100111011, 0100110111
+		{64, 32},   //01000000, 00100000
+		{63, 0},    //00111111, 00111111
+		{1, 0},     //00000001, 00000001
+		{0, 0},     //00000000, 00000000
+		{2, 1},
+		{4294967295, 0}, //11111111111111111111111111111111
+		{1022, 1021},
+	}
+	for i, datest := range tests {
+		actual, err := nextSNum(datest.n)
+		if err != nil && datest.expected != 0 {
+			t.Errorf("%v: actual %v, expected %v", i, actual, err)
+			t.FailNow()
+		}
+		if err == nil && datest.expected == 0 {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+			t.FailNow()
+		}
+		if datest.expected != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
+
+func TestConv(t *testing.T) {
+	var tests = []struct {
+		a        int64
+		b        int64
+		expected int
+	}{
+		{9, 5, 2},   //1001, 0101
+		{33, 63, 4}, //100001, 111111
+		{33, 59, 3}, //100001, 111011
+		{12, 12, 0},
+		{1, 0, 1},
+	}
+	for i, datest := range tests {
+		actual := conv(datest.a, datest.b)
+		if datest.expected != actual {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
+
+func TestPairSwap(t *testing.T) {
+	var tests = []struct {
+		a        int64
+		expected int64
+	}{
+		{9, 6}, //1001
+		// {33, 18},   //100001
+		// {170, 85},  //10101010, 01010101
+		// {366, 669}, //0101101110, 1010011101
+		// {1, 2},
+		// {2, 1},
+	}
+	for i, datest := range tests {
+		actual := pairSwap(datest.a)
 		if datest.expected != actual {
 			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
 		}
