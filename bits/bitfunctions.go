@@ -92,7 +92,7 @@ func rSum(s string, n int) int {
 	return ret
 }
 
-//5.3 Next Number: Given a positive integer, print the next smallest and the next largest number that have the same number of 1 bits in their binary representation.
+//5.4 Next Number: Given a positive integer, print the next smallest and the next largest number that have the same number of 1 bits in their binary representation.
 
 //smallest number bigger--O(n) where n is the langth of bin rep of n
 //12:53~~1:30
@@ -156,7 +156,7 @@ func conv(a, b int64) int {
 }
 
 //5.7:Pairwise swap: Write a function to swap odd and even bits in an integer with as few instructions as possible
-//2:28
+//2:28~~3:30
 func pairSwap(a int64) int64 {
 	//maskL:shift a left 1
 	//maskR:shift a right 1
@@ -189,3 +189,6 @@ func pairSwap(a int64) int64 {
 	fmt.Printf("returning %v\n", ret)
 	return ret
 }
+
+//isolate even and odds with prdefined masks???
+//why the hell are 4s and 9s showing up??
