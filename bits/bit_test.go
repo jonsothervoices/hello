@@ -282,17 +282,42 @@ func TestPairSwap(t *testing.T) {
 		a        int64
 		expected int64
 	}{
-		{9, 6}, //1001
-		// {33, 18},   //100001
-		// {170, 85},  //10101010, 01010101
-		// {366, 669}, //0101101110, 1010011101
-		// {1, 2},
-		// {2, 1},
+		{9, 6},     //1001
+		{33, 18},   //100001
+		{170, 85},  //10101010, 01010101
+		{366, 669}, //0101101110, 1010011101
+		{1, 2},
+		{2, 1},
 	}
 	for i, datest := range tests {
 		actual := pairSwap(datest.a)
 		if datest.expected != actual {
 			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
+
+func TestDrawLine(t *testing.T) {
+	var tests = []struct {
+		x1       int
+		x2       int
+		y        int
+		w        int
+		screen   []byte
+		expected []byte
+	}{
+		{0, 7, 0, 8, make([]byte, 8), []byte{255, 0, 0, 0, 0, 0, 0, 0}},
+		{3, 5, 5, 8, make([]byte, 8), []byte{0, 0, 0, 0, 0, 28, 0, 0}},
+		{3, 4, 5, 16, make([]byte, 16), []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 0, 0}},
+		{4, 9, 5, 16, make([]byte, 16), []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 192, 0, 0, 0, 0}},
+		{9, 12, 5, 16, make([]byte, 16), []byte{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 120, 0, 0, 0, 0}},
+	}
+	for i, datest := range tests {
+		drawLine(datest.x1, datest.x2, datest.y, datest.w, datest.screen)
+		for j, v := range datest.screen {
+			if datest.expected[j] != v {
+				t.Errorf("%v: element %v: actual %v, expected %v", i, j, v, datest.expected[j])
+			}
 		}
 	}
 }

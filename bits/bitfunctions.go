@@ -157,38 +157,23 @@ func conv(a, b int64) int {
 
 //5.7:Pairwise swap: Write a function to swap odd and even bits in an integer with as few instructions as possible
 //2:28~~3:30
+//11:40~~12:17
 func pairSwap(a int64) int64 {
-	//maskL:shift a left 1
-	//maskR:shift a right 1
-	s := strconv.FormatInt(int64(a), 2)
-	fmt.Printf("s is %v\n", s)
-	len := len(s) - 1
-	maskL := fmt.Sprintf("%v0", s)
-	maskR := fmt.Sprintf("0%v", s[:len])
-	fmt.Printf("maskL is %v\n", maskL)
-	fmt.Printf("maskR is %v\n", maskR)
-	//make new slice s with 0s length binrep of a
-	for i := range s {
-		//range check
-		if i == len {
-			s = fmt.Sprintf("%v%v", s[:i], maskL[i])
-			fmt.Printf("i==len: s is now %v\n", s)
-			continue
-		}
-		//if even, assign s[i] to maskL[i]
-		if i%2 == 0 {
-			s = fmt.Sprintf("%v%v%v", s[:i], maskL[i], s[i+1:])
-			fmt.Printf("i is even: s is now %v\n", s)
-			continue
-		}
-		//if index is odd, assign new[i] to maskR[i]
-		s = fmt.Sprintf("%v%v%v", s[:i], maskR[i], s[i+1:])
-		fmt.Printf("i is odd: s is now %v\n", s)
-	}
-	ret, _ := strconv.ParseInt(s, 2, 64)
-	fmt.Printf("returning %v\n", ret)
-	return ret
+	maskE, _ := strconv.ParseInt("101010101010101010101010101010101010101010101010101010101010101", 2, 64)
+	maskO, _ := strconv.ParseInt("010101010101010101010101010101010101010101010101010101010101010", 2, 64)
+	evens := (maskE & a) << 1
+	odds := (maskO & a) >> 1
+	fmt.Printf("evens is %v\nodds is %v\n", evens, odds)
+	return evens | odds
 }
 
-//isolate even and odds with prdefined masks???
-//why the hell are 4s and 9s showing up??
+//5.8: Draw Line: a monochrome screen is stored as an array of bits, allowing eight consecutive pixels to be stored in one byte. The screen has width w (w%8==0). Write a function to draw a horizontal line from (x1,y) to (x2,y).
+
+//12:57~~2:30
+func drawLine(x1, x2, y, w int, screen []byte) {
+	bitStart := y*w + x1
+	bitEnd := y*w + x2
+	for i := bitStart; i <= bitEnd; i++ {
+		screen[i/8] = (1 << (7 - i%8)) | screen[i/8]
+	}
+}
