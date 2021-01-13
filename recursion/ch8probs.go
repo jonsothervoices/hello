@@ -5,7 +5,36 @@ import (
 	"sort"
 )
 
-//8.2 Robot in a Gric: A robot starts in the upper left corner of a grid with r rows and c columns. The robot can move right and down, but certain cells are "off limits". Write a function to find a path from top left to bottom right.
+type stack struct {
+	data []interface{}
+}
+
+func (s *stack) len() int {
+	return len(s.data)
+}
+
+func (s *stack) push(a interface{}) *stack {
+	s.data = append(s.data, a)
+	return s
+}
+
+func (s *stack) peek() interface{} {
+	if s.len() == 0 {
+		return nil
+	}
+	return s.data[s.len()-1]
+}
+
+func (s *stack) pop() interface{} {
+	ret := s.peek()
+	if ret == nil {
+		return nil
+	}
+	s.data = s.data[:s.len()-1]
+	return ret
+}
+
+//8.2 Robot in a Grid: A robot starts in the upper left corner of a grid with r rows and c columns. The robot can move right and down, but certain cells are "off limits". Write a function to find a path from top left to bottom right.
 
 //go right until you cant, then go down; if cant find path, try again
 //
@@ -115,4 +144,30 @@ func buildPowerSet(s []int) [][]int {
 	// ret = append(ret, s)
 	ret = append(ret, newS...)
 	return ret
+}
+
+//8.5 Recursive muliply: write a recursive function to multiply 2 positive integers.
+//~~3:01-3:04
+//optimization~~3:04-3:11
+
+func recMultiply(a, b uint) uint {
+	if b <= a {
+		return doRecMultiply(a, b)
+	}
+	return doRecMultiply(b, a)
+}
+
+func doRecMultiply(a, b uint) uint {
+	if a == 0 || b == 0 {
+		return 0
+	}
+	if b == 1 {
+		return a
+	}
+	return a + recMultiply(a, b-1)
+}
+
+//8.6: Towers of Hanoi
+func towerHan(s stack) stack {
+	return stack{}
 }

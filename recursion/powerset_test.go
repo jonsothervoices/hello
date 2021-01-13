@@ -42,7 +42,6 @@ func TestPowerSet(t *testing.T) {
 	}
 	for i, datest := range tests {
 		actual := powerSet(datest.s)
-		fmt.Printf("%v\n", actual)
 		if len(actual) != len(datest.expected) {
 			t.Errorf("%v: actual length %v, expected length %v\n", i, len(actual), len(datest.expected))
 			t.FailNow()
