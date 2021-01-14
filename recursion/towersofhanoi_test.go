@@ -19,7 +19,8 @@ func TestTowerHan(t *testing.T) {
 		for _, v := range datest.a {
 			s.push(v)
 		}
-		actual := towerHan(s)
+		var actual stack
+		towerHan(&s, &stack{}, &actual, s.len())
 		if actual.len() != len(datest.a) {
 			t.Errorf("%v: actual length %v, expected %v", i, actual.len(), len(datest.a))
 			t.FailNow()

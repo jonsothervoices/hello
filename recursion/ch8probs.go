@@ -168,6 +168,32 @@ func doRecMultiply(a, b uint) uint {
 }
 
 //8.6: Towers of Hanoi
-func towerHan(s stack) stack {
-	return stack{}
+//~~
+func towerHan(s, buff, dest *stack, n int) {
+	if n == 0 {
+		return
+	}
+	towerHan(s, dest, buff, n-1)
+	dest.push(s.pop())
+	towerHan(buff, s, dest, n-1)
+}
+
+//8.7: Premutaions without dups: Write a function to find all the permutations of a string with unique characters
+
+func uniquePerm(s string) []string {
+	if len(s) == 1 {
+		return []string{s}
+	}
+	if len(s) == 0 {
+		return []string{""}
+	}
+	source := uniquePerm(s[1:])
+	dest := []string{}
+	for _, v := range source {
+		for j := range v {
+			dest = append(dest, fmt.Sprintf("%v%v%v", v[:j], string(s[0]), v[j:]))
+		}
+		dest = append(dest, fmt.Sprintf("%v%v", v, string(s[0])))
+	}
+	return dest
 }
