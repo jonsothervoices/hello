@@ -117,6 +117,30 @@ func sortDedupe(s []int) []int {
 	return newS
 }
 
+func strDedupe(s []string) []string {
+	newS := []string{}
+	m := make(map[string]bool)
+	for _, v := range s {
+		if ok := m[v]; !ok {
+			m[v] = true
+			newS = append(newS, v)
+		}
+	}
+	return newS
+}
+
+func runeDedupe(s string) string {
+	var newS string
+	m := make(map[rune]bool)
+	for _, v := range s {
+		if ok := m[v]; !ok {
+			m[v] = true
+			newS = newS + string(v)
+		}
+	}
+	return newS
+}
+
 //if s is empty, return
 //remove item from s
 //run powerset on new s
@@ -197,3 +221,44 @@ func uniquePerm(s string) []string {
 	}
 	return dest
 }
+
+//8.8: Permutations with dups:
+//1:22~~
+func nonUniquePerm(s string) []string {
+	// m:= make (map[rune]int)
+	// for _,v:= range s{
+	// 		m[v]=m[v]+1
+	// }
+	return strDedupe(uniquePerm(s))
+}
+
+//COME BACK?
+// func runNonUniquePerm(m map[rune]int) []string {
+// 	if len(m) == 1 {
+// 		for k,v:= range m{
+// 			return []string{strings.Repeat(string(k), v)}
+// 		}
+// 	}
+// 	if len(m) == 0 {
+// 		return []string{""}
+// 	}
+// 	var rKey rune
+// 	var rVal int
+// 	for k,v := range m {
+// 		rKey,rVal=k,v
+// 		delete(m,k)
+// 		break
+// 	}
+// 	for i:=0;i<=rKey;i++{
+//
+// 	}
+// 	source := runNonUniquePerm(m)
+// 	dest := []string{}
+// 	for k, v := range source {
+// 		for j := range v {
+// 			dest = append(dest, fmt.Sprintf("%v%v%v", v[:j], string(rKey), v[j:]))
+// 		}
+// 		dest = append(dest, fmt.Sprintf("%v%v", v, string(rKey)))
+// 	}
+// 	return dest
+// }
