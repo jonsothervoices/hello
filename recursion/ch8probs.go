@@ -262,3 +262,21 @@ func nonUniquePerm(s string) []string {
 // 	}
 // 	return dest
 // }
+
+//8.9ish: Parens: write a function to check that a given string has valid parentheses
+
+func parens(s string) bool {
+	var stack int
+	for _, v := range s {
+		if v == '(' {
+			stack++
+		}
+		if v == ')' {
+			stack--
+		}
+		if stack < 0 {
+			return false
+		}
+	}
+	return stack == 0
+}
