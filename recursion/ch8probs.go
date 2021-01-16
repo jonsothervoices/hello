@@ -280,3 +280,41 @@ func parens(s string) bool {
 	}
 	return stack == 0
 }
+
+//8.10: Paint fill: given a 2D array of colors, Implement the "paint fill" function.
+//3:12~~4:00
+func paintFill(image [][]string, c string, y, x int) [][]string {
+	//range check
+	if y > len(image)-1 {
+		return image
+	}
+	if x > len(image[y])-1 {
+		return image
+	}
+	//dupe color check
+	if image[y][x] == c {
+		return image
+	}
+	//identify origin color
+	orig := image[y][x]
+	//color origin
+	mImage := image
+	mImage[y][x] = c
+	//check for valid left
+	if x > 0 && mImage[y][x-1] == orig {
+		mImage = paintFill(mImage, c, y, x-1)
+	}
+	//check for valid right
+	if x < len(mImage[y])-1 && mImage[y][x+1] == orig {
+		mImage = paintFill(mImage, c, y, x+1)
+	}
+	//check for valid up
+	if y > 0 && mImage[y-1][x] == orig {
+		mImage = paintFill(mImage, c, y-1, x)
+	}
+	//check for valid down
+	if y < len(mImage)-1 && mImage[y+1][x] == orig {
+		mImage = paintFill(mImage, c, y+1, x)
+	}
+	return mImage
+}
