@@ -318,3 +318,35 @@ func paintFill(image [][]string, c string, y, x int) [][]string {
 	}
 	return mImage
 }
+
+//8.11: Coins: given infinite coins (quarters, dimes, nickels, and pennies) calculate the number of ways of representing n cents.
+//3:01~~5:15
+
+func coins(a int) int {
+	if a == 0 {
+		return 0
+	}
+	return doCoins(a, 25)
+}
+
+func doCoins(a, d int) int {
+	if d == 1 {
+		return 1
+	}
+	ret := 0
+	for i := 0; i*d <= a; i++ {
+		rem := a - (i * d)
+		ret += doCoins(rem, nextCoin(d))
+	}
+	return ret
+}
+
+func nextCoin(d int) int {
+	if d == 25 {
+		return 10
+	}
+	if d == 10 {
+		return 5
+	}
+	return 1
+}
