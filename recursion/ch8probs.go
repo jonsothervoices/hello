@@ -321,7 +321,7 @@ func paintFill(image [][]string, c string, y, x int) [][]string {
 
 //8.11: Coins: given infinite coins (quarters, dimes, nickels, and pennies) calculate the number of ways of representing n cents.
 //3:01~~5:15
-
+//TODO: COME BACK???
 func coins(a int) int {
 	if a == 0 {
 		return 0
@@ -350,3 +350,34 @@ func nextCoin(d int) int {
 	}
 	return 1
 }
+
+//8.12: Eight Queens: Write a function to print all the ways of arranging 8 queens on an 8x8 chess board such that none share the same row, column, or diagonal.
+type board [8]uint8
+
+//func eightQueens(b board) []board {
+//create another board bScratch equivalent to b
+//generate diag masks
+//diagMask1:= board{128,64,32,16,8,4,2,1}
+//diagMask2:= board{1,2,4,8,16,32,64,128}
+//iterate over board,i from 0 <= 7
+//if element(row) is not zero, continue loop1 (i++)
+//if element(row) is zero, VALID ROW: iterate over the whole board again, j from 0<=7
+//declare qPlace var which will be the place(int) you put the queen
+//initialize qPlace at 1
+//shift qPlace left by j bits
+//AND each element(row) with qPlace
+//if any operation is not zero, continue loop2 (iterate j++)
+//if all operations are 0, VALID COLUMN: iterate over whole board again, k from 0<=7
+//check diags
+//shift diagMask1 right 7-j bits
+//shift diagMask2 left j bits
+//AND each element with both masks
+//if any operations are not zero, break loop3 and continue loop2 (iterate j++)
+//if all are zero, VALID QPLACE: we've found a valid j-shifted qPlace
+//set bScratch[i] to j-shifted qPlace and recurse over bScratch
+//OUT OF ALL LOOPS: initialize ret
+//iterate over bScratch
+//if no element is zero, add bscratch to ret
+//return ret
+
+//}
