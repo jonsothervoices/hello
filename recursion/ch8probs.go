@@ -354,30 +354,88 @@ func nextCoin(d int) int {
 //8.12: Eight Queens: Write a function to print all the ways of arranging 8 queens on an 8x8 chess board such that none share the same row, column, or diagonal.
 type board [8]uint8
 
-//func eightQueens(b board) []board {
-//create another board bScratch equivalent to b
-//generate diag masks
-//diagMask1:= board{128,64,32,16,8,4,2,1}
-//diagMask2:= board{1,2,4,8,16,32,64,128}
-//iterate over board,i from 0 <= 7
-//if element(row) is not zero, continue loop1 (i++)
-//if element(row) is zero, VALID ROW: iterate over the whole board again, j from 0<=7
-//declare qPlace var which will be the place(int) you put the queen
-//initialize qPlace at 1
-//shift qPlace left by j bits
-//AND each element(row) with qPlace
-//if any operation is not zero, continue loop2 (iterate j++)
-//if all operations are 0, VALID COLUMN: iterate over whole board again, k from 0<=7
-//check diags
-//shift diagMask1 right 7-j bits
-//shift diagMask2 left j bits
-//AND each element with both masks
-//if any operations are not zero, break loop3 and continue loop2 (iterate j++)
-//if all are zero, VALID QPLACE: we've found a valid j-shifted qPlace
-//set bScratch[i] to j-shifted qPlace and recurse over bScratch
-//OUT OF ALL LOOPS: initialize ret
-//iterate over bScratch
-//if no element is zero, add bscratch to ret
-//return ret
-
-//}
+// func eightQueens(b board) []board {
+// 	//Exit Condition--if no rows are zero, we're good
+// 	exitCheck:=1
+// 	h,t := range b{
+// 		//multiply, if any are zero check becomes zero
+// exitCheck*t
+// 	}
+// 	if exitCheck!=0{
+// 		return []board{b}
+// 	}
+// //create another board bScratch equivalent to b
+// bScratch:=b
+// //generate diag masks
+// diagMask1:= board{128,64,32,16,8,4,2,1}
+// diagMask2:= board{1,2,4,8,16,32,64,128}
+// //initialize ret
+// 			var ret []board
+// //range over baord
+// i, u:= range b{
+// 	//if element(row) is not zero, continue loop1 (i++)
+// 	if u!=0{
+// 		continue
+// 	}
+// 	//if element(row) is zero, VALID ROW: range over board again
+// 	j,v:= range b{
+// 		//declare qPlace var which will be the place(int) you put the queen
+// 		//initialize qPlace at 1
+// 		qPlace:=1
+// 		//shift qPlace left by j bits
+// 		qPlace<<j
+// 		//AND each element(row) with qPlace
+// 		var checker uint8
+// 		k,w:= range b{
+// 			checker+=(w&qPlace)
+// 			}
+// 			//if any operation is not zero, continue loop2 (iterate j++)
+// 			if checker!=0{
+// 				continue
+// 			}
+// 			//if all operations are 0, VALID COLUMN:
+// 			//check diags
+// 			//shift diagMask1 right 7-j bits
+// 			d1Alt:=board{128>>(7-j),64>>(7-j),32>>(7-j),16>>(7-j),8>>(7-j),4>>(7-j),2>>(7-j),1>>(7-j)}
+// 			//shift diagMask2 left j bits
+// 			d2Alt:=board{1<<j,2<<j,4<<j,8<<j,16<<j,32<<j,64<<j,128<<j}
+// 			//range over board again
+// 			var dChecker uint8
+// 			l,x:=range b{
+// 	//AND each element with both masks
+// 	dChecker+=(w&d1Alt)
+// 	dChecker+=(w&d2Alt)
+// 			}
+// 			//if any operations are not zero, break loop3 and continue loop2 (iterate j++)
+// 			if dChecker!=0{
+// 				continue
+// 			}
+// 			//if all are zero, VALID QPLACE: we've found a valid j-shifted qPlace
+// 			//set bScratch[i] to j-shifted qPlace
+// 			bScratch[i]=qPlace
+// 			//recurse on bScratch and store
+// 			littleRet:=eightQueens(bScratch)
+// 		}
+// 	}
+// 	//OUT OF ALL LOOPS:
+// 	//Second Exit Condition: invalid placement
+// 	anotherChecker:=1
+// 	m,y:=range littleRet{
+// 		n,z:=range y{
+// 			anotherChecker*z
+// 		}
+// 	}
+// 		if anotherChecker!=0{
+// 				ret=append(ret,bScratch)
+// 			}
+// 				return
+//
+// }
+//
+//
+//
+//
+// //iterate over bScratch
+// //if no element is zero, add bscratch to ret
+// //return ret
+// }
