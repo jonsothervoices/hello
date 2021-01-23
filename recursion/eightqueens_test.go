@@ -1,43 +1,56 @@
 package recursion
 
-// import (
-// 	"testing"
-// )
-// type board [8][8]bool
-// func TestEightQueens(t *testing.T) {
-// 	// var tests = []struct {
-// 	// 	expected [8]board
-// 	// }{
-// 	// {[]board{board{{true,false,false,false,false,false,false,false},
-//   //                {false,false,true,false,false,false,false,false},
-//   //                {false,false,false,false,true,false,false,false},
-//   //                {false,false,false,false,false,false,true,false},
-//   //                {false,true,false,false,false,false,false,false},
-//   //                {false,false,false,true,false,false,false,false},
-//   //                {false,false,false,false,false,true,false,false},
-//   //                {false,false,false,false,false,false,false,true}},
-//   //         board{{},{},{},{},{},{},{},{}},
-//   //         board{{},{},{},{},{},{},{},{}},
-//   //         board{{},{},{},{},{},{},{},{}},
-//   //         board{{},{},{},{},{},{},{},{}},
-//   //         board{{},{},{},{},{},{},{},{}},
-//   //         board{{},{},{},{},{},{},{},{}},
-//   //         board{{},{},{},{},{},{},{},{}},
-//   // }},
-// 	// }
-// 	// for i, datest := range tests {
-// 	// 	actual := coins(datest.a)
-// 	// 	if actual != datest.expected {
-// 	// 		t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
-// 	// 	}
-// 	// }
-// expected:= [8]board{}
-// expected[0][0][0]=true
-// expected[0][1][2]=true
-// expected[0][2][4]=true
-// expected[0][3][6]=true
-// expected[0][4][1]=true
-// expected[0][5][3]=true
-// expected[0][6][5]=true
-// expected[0][7][7]=true
-// }
+import (
+	"testing"
+)
+
+func TestEightQueens(t *testing.T) {
+	actual := eightQueens(board{}, 0)
+	if len(actual) != 92 {
+		t.Errorf("actual %v, expected 96", len(actual))
+	}
+}
+
+func TestIsAllowed(t *testing.T) {
+	var tests = []struct {
+		b        board
+		i        int
+		j        int
+		expected bool
+	}{
+		{board{128, 0, 0, 0, 0, 0, 0, 0}, 1, 0, false},
+		{board{128, 64, 32, 16, 8, 4, 2, 1}, 0, 1, false},
+		{board{128, 0, 0, 0, 0, 0, 0, 0}, 0, 1, false},
+		{board{0, 0, 64, 0, 0, 0, 0, 0}, 0, 1, false},
+		{board{0, 0, 16, 0, 0, 0, 0, 0}, 0, 1, false},
+		{board{0, 0, 0, 128, 0, 0, 0, 0}, 0, 3, false},
+		{board{0, 0, 0, 0, 64, 0, 0, 0}, 0, 2, true},
+		{board{0, 0, 0, 0, 0, 0, 0, 0}, 7, 7, true},
+		{board{255, 255, 255, 255, 255, 255, 255, 255}, 1, 1, false},
+	}
+	for i, datest := range tests {
+		actual := datest.b.isAllowed(datest.i, datest.j)
+		if actual != datest.expected {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}
+
+func TestSum(t *testing.T) {
+	var tests = []struct {
+		b        board
+		expected uint8
+	}{
+		{board{128, 64, 32, 16, 8, 4, 2, 1}, 255},
+		{board{128, 0, 0, 0, 0, 0, 0, 0}, 128},
+		{board{0, 0, 64, 0, 0, 0, 0, 1}, 65},
+		{board{0, 0, 16, 0, 5, 7, 0, 0}, 28},
+		{board{0, 0, 0, 0, 0, 0, 0, 0}, 0},
+	}
+	for i, datest := range tests {
+		actual := datest.b.sum()
+		if actual != datest.expected {
+			t.Errorf("%v: actual %v, expected %v", i, actual, datest.expected)
+		}
+	}
+}

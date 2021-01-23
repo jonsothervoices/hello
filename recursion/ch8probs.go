@@ -2,6 +2,7 @@ package recursion
 
 import (
 	"fmt"
+	"math"
 	"sort"
 )
 
@@ -354,88 +355,58 @@ func nextCoin(d int) int {
 //8.12: Eight Queens: Write a function to print all the ways of arranging 8 queens on an 8x8 chess board such that none share the same row, column, or diagonal.
 type board [8]uint8
 
-// func eightQueens(b board) []board {
-// 	//Exit Condition--if no rows are zero, we're good
-// 	exitCheck:=1
-// 	h,t := range b{
-// 		//multiply, if any are zero check becomes zero
-// exitCheck*t
-// 	}
-// 	if exitCheck!=0{
-// 		return []board{b}
-// 	}
-// //create another board bScratch equivalent to b
-// bScratch:=b
-// //generate diag masks
-// diagMask1:= board{128,64,32,16,8,4,2,1}
-// diagMask2:= board{1,2,4,8,16,32,64,128}
-// //initialize ret
-// 			var ret []board
-// //range over baord
-// i, u:= range b{
-// 	//if element(row) is not zero, continue loop1 (i++)
-// 	if u!=0{
-// 		continue
-// 	}
-// 	//if element(row) is zero, VALID ROW: range over board again
-// 	j,v:= range b{
-// 		//declare qPlace var which will be the place(int) you put the queen
-// 		//initialize qPlace at 1
-// 		qPlace:=1
-// 		//shift qPlace left by j bits
-// 		qPlace<<j
-// 		//AND each element(row) with qPlace
-// 		var checker uint8
-// 		k,w:= range b{
-// 			checker+=(w&qPlace)
-// 			}
-// 			//if any operation is not zero, continue loop2 (iterate j++)
-// 			if checker!=0{
-// 				continue
-// 			}
-// 			//if all operations are 0, VALID COLUMN:
-// 			//check diags
-// 			//shift diagMask1 right 7-j bits
-// 			d1Alt:=board{128>>(7-j),64>>(7-j),32>>(7-j),16>>(7-j),8>>(7-j),4>>(7-j),2>>(7-j),1>>(7-j)}
-// 			//shift diagMask2 left j bits
-// 			d2Alt:=board{1<<j,2<<j,4<<j,8<<j,16<<j,32<<j,64<<j,128<<j}
-// 			//range over board again
-// 			var dChecker uint8
-// 			l,x:=range b{
-// 	//AND each element with both masks
-// 	dChecker+=(w&d1Alt)
-// 	dChecker+=(w&d2Alt)
-// 			}
-// 			//if any operations are not zero, break loop3 and continue loop2 (iterate j++)
-// 			if dChecker!=0{
-// 				continue
-// 			}
-// 			//if all are zero, VALID QPLACE: we've found a valid j-shifted qPlace
-// 			//set bScratch[i] to j-shifted qPlace
-// 			bScratch[i]=qPlace
-// 			//recurse on bScratch and store
-// 			littleRet:=eightQueens(bScratch)
-// 		}
-// 	}
-// 	//OUT OF ALL LOOPS:
-// 	//Second Exit Condition: invalid placement
-// 	anotherChecker:=1
-// 	m,y:=range littleRet{
-// 		n,z:=range y{
-// 			anotherChecker*z
-// 		}
-// 	}
-// 		if anotherChecker!=0{
-// 				ret=append(ret,bScratch)
-// 			}
-// 				return
-//
-// }
-//
-//
-//
-//
-// //iterate over bScratch
-// //if no element is zero, add bscratch to ret
-// //return ret
-// }
+func (b board) isAllowed(r, c int) bool {
+	//check row
+	if b[r] > 0 {
+		return false
+	}
+	//creat column mask
+	cMask := uint8(128) >> c
+	//column check
+	for _, v := range b {
+		if cMask&v != 0 {
+			return false
+		}
+	}
+	//check diags
+	for i, v := range b {
+		shift := int(math.Abs(float64(r - i)))
+		if cMask<<shift&v > 0 || cMask>>shift&v > 0 {
+			return false
+		}
+	}
+	return true
+}
+
+func (b board) sum() uint8 {
+	var s uint8
+	for _, v := range b {
+		s += v
+	}
+	return s
+}
+
+func eightQueens(b board, row int) (ret []board) {
+	if b.sum() == 255 {
+		return []board{b}
+	}
+	m := make(map[string]bool)
+	for i, u := range b {
+		if u != 0 {
+			continue
+		}
+		bScratch := b
+		if ok := bScratch.isAllowed(i, 7-row); !ok {
+			continue
+		}
+		bScratch[i] = (1 << row) | bScratch[i]
+		current := eightQueens(bScratch, row+1)
+		for _, v := range current {
+			if _, ok := m[fmt.Sprintf("%v", v)]; !ok {
+				m[fmt.Sprintf("%v", v)] = true
+				ret = append(ret, v)
+			}
+		}
+	}
+	return
+}
