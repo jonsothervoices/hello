@@ -386,7 +386,7 @@ func (b board) sum() uint8 {
 	return s
 }
 
-func eightQueens(b board, row int) (ret []board) {
+func eightQueens(b board, column int) (ret []board) {
 	if b.sum() == 255 {
 		return []board{b}
 	}
@@ -395,11 +395,11 @@ func eightQueens(b board, row int) (ret []board) {
 			continue
 		}
 		bScratch := b
-		if ok := bScratch.isAllowed(i, 7-row); !ok {
+		if ok := bScratch.isAllowed(i, 7-column); !ok {
 			continue
 		}
-		bScratch[i] = (1 << row) | bScratch[i]
-		current := eightQueens(bScratch, row+1)
+		bScratch[i] = (1 << column) | bScratch[i]
+		current := eightQueens(bScratch, column+1)
 		ret = append(ret, current...)
 	}
 	return
