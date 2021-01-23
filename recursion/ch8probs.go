@@ -390,7 +390,6 @@ func eightQueens(b board, row int) (ret []board) {
 	if b.sum() == 255 {
 		return []board{b}
 	}
-	m := make(map[string]bool)
 	for i, u := range b {
 		if u != 0 {
 			continue
@@ -401,12 +400,7 @@ func eightQueens(b board, row int) (ret []board) {
 		}
 		bScratch[i] = (1 << row) | bScratch[i]
 		current := eightQueens(bScratch, row+1)
-		for _, v := range current {
-			if _, ok := m[fmt.Sprintf("%v", v)]; !ok {
-				m[fmt.Sprintf("%v", v)] = true
-				ret = append(ret, v)
-			}
-		}
+		ret = append(ret, current...)
 	}
 	return
 }
