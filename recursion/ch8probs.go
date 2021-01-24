@@ -417,7 +417,6 @@ type boxGroup []box
 
 func (b boxGroup) stack() boxGroup {
 	b.sort()
-	fmt.Println(b)
 	return b.doStack()
 }
 
@@ -455,4 +454,57 @@ func (b boxGroup) height() (h int) {
 		h += v.h
 	}
 	return
+}
+
+//8.14: Boolean Evaluation: Given an expression with 0,1,&,|, and ^, and a desired boolean result, write a function to count the number of ways of parenthesizing such that the expression holds.
+
+func boolEval(s string, result bool) (ways int) {
+	fmt.Println("evaluating s=", s)
+	if len(s) == 1 {
+		if (s == "1" && result) || (s == "0" && !result) {
+			return 1
+		}
+		return 0
+	}
+	for i, v := range s {
+		switch v {
+		case '&':
+			{
+				lWays := boolEval(s[:i], result)
+				if !(lWays > 0 == result) {
+					continue
+				}
+				rWays := boolEval(s[i+1:], result)
+				if !(rWays > 0 == result) {
+					continue
+				}
+				ways += (lWays * rWays)
+			}
+		case '^':
+			{
+				lWays := boolEval(s[:i], result)
+				rWays := boolEval(s[i+1:], result)
+				fmt.Println("found ^, left is", s[:i], "right is", s[i+1:], "lWays and rWays are", lWays, "and", rWays)
+				if ((lWays > 0 && rWays == 0) || (rWays > 0 && lWays == 0)) == result {
+					fmt.Println("adding", (intMax(lWays, 1) * intMax(rWays, 1)), "ways")
+					ways += (intMax(lWays, 1) * intMax(rWays, 1))
+				}
+			}
+		case '|':
+			{
+				lWays := boolEval(s[:i], result)
+				rWays := boolEval(s[i+1:], result)
+				fmt.Println("found |, left is", s[:i], "right is", s[i+1:], "lWays and rWays are", lWays, "and", rWays)
+				if ((lWays > 0) || (rWays > 0)) == result {
+					fmt.Println("adding", (intMax(lWays, 1) * intMax(rWays, 1)), "ways")
+					ways += (intMax(lWays, 1) * intMax(rWays, 1))
+				}
+			}
+		}
+	}
+	return
+}
+
+func intMax(n, m int) int {
+	return int(math.Max(float64(n), float64(m)))
 }
