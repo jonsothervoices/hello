@@ -404,3 +404,55 @@ func eightQueens(b board, column int) (ret []board) {
 	}
 	return
 }
+
+//8.13: Stack of Boxes: given a collection of n boxes with w1, h1, and d1, write a function to compute the height of the tallest possible stack. Boxes must decrease in all 3 dimensions.
+//3:26~~5:05
+type box struct {
+	h int
+	w int
+	d int
+}
+
+type boxGroup []box
+
+func (b boxGroup) stack() boxGroup {
+	b.sort()
+	fmt.Println(b)
+	return b.doStack()
+}
+
+func (b boxGroup) sort() {
+	sort.Slice(b, func(i, j int) bool { return b[i].h > b[j].h })
+}
+
+func (b boxGroup) doStack() boxGroup {
+	//if b is empty, return b
+	if len(b) <= 1 {
+		return b
+	}
+	stack := boxGroup{b[0]}
+	for i, v := range b {
+		if i == 0 {
+			continue
+		}
+		if isStackable(stack[len(stack)-1], v) {
+			stack = append(stack, v)
+		}
+	}
+	rest := b[1:].doStack()
+	if stack.height() > rest.height() {
+		return stack
+	}
+	return rest
+}
+
+func isStackable(big, small box) bool {
+	return (big.h > small.h && big.w > small.w) && big.d > small.d
+}
+
+func (b boxGroup) height() (h int) {
+	for _, v := range b {
+		h += v.h
+	}
+	return
+}
