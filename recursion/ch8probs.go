@@ -459,7 +459,6 @@ func (b boxGroup) height() (h int) {
 //8.14: Boolean Evaluation: Given an expression with 0,1,&,|, and ^, and a desired boolean result, write a function to count the number of ways of parenthesizing such that the expression holds.
 
 func boolEval(s string, result bool) (ways int) {
-	fmt.Println("evaluating s=", s)
 	if len(s) == 1 {
 		if (s == "1" && result) || (s == "0" && !result) {
 			return 1
@@ -471,32 +470,69 @@ func boolEval(s string, result bool) (ways int) {
 		case '&':
 			{
 				lWays := boolEval(s[:i], result)
-				if !(lWays > 0 == result) {
+				//result=true
+				if result {
+					//can left be made true? if not, all we need to know
+					if lWays == 0 {
+						continue
+					}
+					//if so, can right be made true? if not, all we need to know
+					rWays := boolEval(s[i+1:], result)
+					if rWays == 0 {
+						continue
+					}
+					//true possibilities on both sides
+					ways += (lWays * rWays)
 					continue
 				}
+				//result=false
 				rWays := boolEval(s[i+1:], result)
-				if !(rWays > 0 == result) {
+				//if neither side can be made false, no possibilities
+				if lWays == 0 && rWays == 0 {
 					continue
 				}
-				ways += (lWays * rWays)
+				//if at least one side can be made false, add possibilities
+				ways += (intMax(lWays, 1) * intMax(rWays, 1))
 			}
 		case '^':
 			{
 				lWays := boolEval(s[:i], result)
 				rWays := boolEval(s[i+1:], result)
-				fmt.Println("found ^, left is", s[:i], "right is", s[i+1:], "lWays and rWays are", lWays, "and", rWays)
-				if ((lWays > 0 && rWays == 0) || (rWays > 0 && lWays == 0)) == result {
-					fmt.Println("adding", (intMax(lWays, 1) * intMax(rWays, 1)), "ways")
-					ways += (intMax(lWays, 1) * intMax(rWays, 1))
+				notLWays := boolEval(s[:i], !result)
+				notRWays := boolEval(s[i+1:], !result)
+				if result == true {
+					//can one side be made true AND the other be made false?
+					if lWays > 0 && notRWays > 0 {
+						//add all combinations of one side true and other side false
+						ways += (intMax(lWays, 1) * intMax(notRWays, 1))
+					}
+					//how about the opposite? One side made false and other made true?
+					if rWays > 0 && notLWays > 0 {
+						//add all combinations of one side false and other side true
+						ways += (intMax(rWays, 1) * intMax(notLWays, 1))
+					}
+				}
+				if result == false {
+					//Can they both be made false?
+					if rWays > 0 && lWays > 0 {
+						//add all combinations of both sides false
+						ways += (intMax(lWays, 1) * intMax(rWays, 1))
+					}
+					//Can they both be made true?
+					if notRWays > 0 && notLWays > 0 {
+						//add all combinations of both sides true
+						ways += (intMax(notLWays, 1) * intMax(notRWays, 1))
+					}
 				}
 			}
 		case '|':
 			{
 				lWays := boolEval(s[:i], result)
 				rWays := boolEval(s[i+1:], result)
-				fmt.Println("found |, left is", s[:i], "right is", s[i+1:], "lWays and rWays are", lWays, "and", rWays)
-				if ((lWays > 0) || (rWays > 0)) == result {
-					fmt.Println("adding", (intMax(lWays, 1) * intMax(rWays, 1)), "ways")
+				if result == false && ((lWays > 0) && (rWays > 0)) {
+					ways += (intMax(lWays, 1) * intMax(rWays, 1))
+				}
+				if result == true && ((lWays > 0) || (rWays > 0)) {
 					ways += (intMax(lWays, 1) * intMax(rWays, 1))
 				}
 			}
