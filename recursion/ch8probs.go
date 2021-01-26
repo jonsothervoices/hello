@@ -500,7 +500,7 @@ func boolEval(s string, result bool) (ways int) {
 				rWays := boolEval(s[i+1:], result)
 				notLWays := boolEval(s[:i], !result)
 				notRWays := boolEval(s[i+1:], !result)
-				if result == true {
+				if result {
 					//can one side be made true AND the other be made false?
 					if lWays > 0 && notRWays > 0 {
 						//add all combinations of one side true and other side false
