@@ -55,6 +55,21 @@ func TestInsertionSort(t *testing.T) {
 	}
 }
 
+func TestMergeSort(t *testing.T) {
+	var tests = setup()
+	for i, datest := range tests {
+		actual := mergeSort(datest.a)
+		if len(actual) != len(datest.expected) {
+			t.Errorf("%v: actual length %v, expected %v", i, len(actual), len(datest.expected))
+		}
+		for j, w := range actual {
+			if w != datest.expected[j] {
+				t.Errorf("%v: actual %v, expected %v", i, w, datest.expected[j])
+			}
+		}
+	}
+}
+
 func setup() []sortTest {
 	return []struct {
 		a        sortableSlice
@@ -65,5 +80,6 @@ func setup() []sortTest {
 		{sortableSlice{}, sortableSlice{}},
 		{sortableSlice{0}, sortableSlice{0}},
 		{sortableSlice{3, 2, 5, 3, 8, 1}, sortableSlice{1, 2, 3, 3, 5, 8}},
+		{sortableSlice{3, 2, 5, 3, 8, 1, 12}, sortableSlice{1, 2, 3, 3, 5, 8, 12}},
 	}
 }

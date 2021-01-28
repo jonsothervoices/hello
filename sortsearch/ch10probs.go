@@ -49,4 +49,44 @@ func (s sortableSlice) insertionSort() sortableSlice {
 	return s
 }
 
+//Merge Sort
+func mergeSort(s sortableSlice) sortableSlice {
+	if len(s) < 2 {
+		return s
+	}
+	mid := len(s) / 2
+	return sortSlices(mergeSort(s[:mid]), mergeSort(s[mid:]))
+}
+
+func sortSlices(a, b sortableSlice) sortableSlice {
+	s := sortableSlice{}
+	for len(a) > 0 || len(b) > 0 {
+		if len(b) == 0 {
+			s = append(s, a[0])
+			a = removeFirst(a)
+			continue
+		}
+		if len(a) == 0 {
+			s = append(s, b[0])
+			b = removeFirst(b)
+			continue
+		}
+		if a[0] < b[0] {
+			s = append(s, a[0])
+			a = removeFirst(a)
+			continue
+		}
+		s = append(s, b[0])
+		b = removeFirst(b)
+	}
+	return s
+}
+
+func removeFirst(s sortableSlice) sortableSlice {
+	if len(s) <= 1 {
+		return sortableSlice{}
+	}
+	return s[1:]
+}
+
 //10.1: sorted Merge: Given 2 sorted arrays A and B, where A has a large enough buffer at the end to hold B, merge B into A.
