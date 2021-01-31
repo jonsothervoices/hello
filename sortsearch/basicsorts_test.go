@@ -12,12 +12,12 @@ type sortTest = struct {
 func TestBubbleSort(t *testing.T) {
 	var tests = setup()
 	for i, datest := range tests {
-		actual := datest.a.bubbleSort()
-		if len(actual) != len(datest.expected) {
-			t.Errorf("%v: actual length %v, expected %v", i, len(actual), len(datest.expected))
+		datest.a.bubbleSort()
+		if len(datest.a) != len(datest.expected) {
+			t.Errorf("%v: actual length %v, expected %v", i, len(datest.a), len(datest.expected))
 			t.FailNow()
 		}
-		for j, w := range actual {
+		for j, w := range datest.a {
 			if w != datest.expected[j] {
 				t.Errorf("%v: actual %v, expected %v", i, w, datest.expected[j])
 			}
@@ -28,11 +28,11 @@ func TestBubbleSort(t *testing.T) {
 func TestSelectionSort(t *testing.T) {
 	var tests = setup()
 	for i, datest := range tests {
-		actual := datest.a.selectionSort()
-		if len(actual) != len(datest.expected) {
-			t.Errorf("%v: actual length %v, expected %v", i, len(actual), len(datest.expected))
+		datest.a.selectionSort()
+		if len(datest.a) != len(datest.expected) {
+			t.Errorf("%v: actual length %v, expected %v", i, len(datest.a), len(datest.expected))
 		}
-		for j, w := range actual {
+		for j, w := range datest.a {
 			if w != datest.expected[j] {
 				t.Errorf("%v: actual %v, expected %v", i, w, datest.expected[j])
 			}
@@ -43,11 +43,11 @@ func TestSelectionSort(t *testing.T) {
 func TestInsertionSort(t *testing.T) {
 	var tests = setup()
 	for i, datest := range tests {
-		actual := datest.a.insertionSort()
-		if len(actual) != len(datest.expected) {
-			t.Errorf("%v: actual length %v, expected %v", i, len(actual), len(datest.expected))
+		datest.a.insertionSort()
+		if len(datest.a) != len(datest.expected) {
+			t.Errorf("%v: actual length %v, expected %v", i, len(datest.a), len(datest.expected))
 		}
-		for j, w := range actual {
+		for j, w := range datest.a {
 			if w != datest.expected[j] {
 				t.Errorf("%v: actual %v, expected %v", i, w, datest.expected[j])
 			}
@@ -63,6 +63,21 @@ func TestMergeSort(t *testing.T) {
 			t.Errorf("%v: actual length %v, expected %v", i, len(actual), len(datest.expected))
 		}
 		for j, w := range actual {
+			if w != datest.expected[j] {
+				t.Errorf("%v: actual %v, expected %v", i, w, datest.expected[j])
+			}
+		}
+	}
+}
+
+func TestQuickSort(t *testing.T) {
+	var tests = setup()
+	for i, datest := range tests {
+		datest.a.quickSort()
+		if len(datest.a) != len(datest.expected) {
+			t.Errorf("%v: actual length %v, expected %v", i, len(datest.a), len(datest.expected))
+		}
+		for j, w := range datest.a {
 			if w != datest.expected[j] {
 				t.Errorf("%v: actual %v, expected %v", i, w, datest.expected[j])
 			}

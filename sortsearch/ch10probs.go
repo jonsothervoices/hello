@@ -4,7 +4,7 @@ type sortableSlice []int
 
 //Bubble Sort
 //12:40~~1:00
-func (s sortableSlice) bubbleSort() sortableSlice {
+func (s sortableSlice) bubbleSort() {
 	swapped := true
 	n := len(s)
 	for swapped {
@@ -17,12 +17,12 @@ func (s sortableSlice) bubbleSort() sortableSlice {
 		}
 		n--
 	}
-	return s
+	return
 }
 
 //Selection Sort
 //1:14~~1:43 (totally got it at 2:01)
-func (s sortableSlice) selectionSort() sortableSlice {
+func (s sortableSlice) selectionSort() {
 	for start := range s {
 		min := start
 		for i := start; i < len(s); i++ {
@@ -32,11 +32,11 @@ func (s sortableSlice) selectionSort() sortableSlice {
 		}
 		s[start], s[min] = s[min], s[start]
 	}
-	return s
+	return
 }
 
 //Insertion Sort
-func (s sortableSlice) insertionSort() sortableSlice {
+func (s sortableSlice) insertionSort() {
 	for start := range s {
 		for i := start; i > 0; i-- {
 			if s[i] < s[i-1] {
@@ -46,7 +46,7 @@ func (s sortableSlice) insertionSort() sortableSlice {
 			}
 		}
 	}
-	return s
+	return
 }
 
 //Merge Sort
@@ -87,6 +87,28 @@ func removeFirst(s sortableSlice) sortableSlice {
 		return sortableSlice{}
 	}
 	return s[1:]
+}
+
+//Quick Sort
+//2:57~~3:40
+
+func (s sortableSlice) quickSort() {
+	if len(s) < 2 {
+		return
+	}
+	hi := len(s) - 1
+	pivot := s[hi]
+	i := 0
+	for j := range s {
+		if s[j] < pivot {
+			s[j], s[i] = s[i], s[j]
+			i++
+		}
+	}
+	s[i], s[hi] = s[hi], s[i]
+	s[0:i].quickSort()
+	s[i+1:].quickSort()
+	return
 }
 
 //10.1: sorted Merge: Given 2 sorted arrays A and B, where A has a large enough buffer at the end to hold B, merge B into A.
