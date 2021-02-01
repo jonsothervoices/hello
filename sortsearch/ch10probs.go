@@ -1,5 +1,7 @@
 package sortsearch
 
+import "fmt"
+
 type sortableSlice []int
 
 //Bubble Sort
@@ -109,6 +111,48 @@ func (s sortableSlice) quickSort() {
 	s[:i].quickSort()
 	s[i+1:].quickSort()
 	return
+}
+
+//Radix Sort (max 4-digit numbers)
+func (s sortableSlice) radixSort() {
+	//find max
+	max := 0
+	for _, v := range s {
+		if v > max {
+			max = v
+		}
+	}
+	//find how many digits max has
+	digits := 0
+	for max > 0 {
+		digits++
+		max /= 10
+		//create buckets
+		buckets := [10]sortableSlice{}
+		for _, v := range s {
+			d := getDigit(v, digits, 1)
+			buckets[d] = append(buckets[d], v)
+		}
+		for i := range buckets {
+			if i == 0 {
+				continue
+			}
+			buckets[i] = append(buckets[i-1], buckets[i]...)
+		}
+		for i := range s {
+			s[i] = buckets[9][i]
+		}
+	}
+	fmt.Println(s)
+	return
+}
+
+func getDigit(a, digit, current int) int {
+	//exit condition
+	if digit == current {
+		return a % 10
+	}
+	return getDigit(a/10, digit, current+1)
 }
 
 //10.1: sorted Merge: Given 2 sorted arrays A and B, where A has a large enough buffer at the end to hold B, merge B into A.
