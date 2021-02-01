@@ -101,12 +101,12 @@ func (s sortableSlice) quickSort() {
 	i := 0
 	for j := range s {
 		if s[j] < pivot {
-			s[j], s[i] = s[i], s[j]
+			s[i], s[j] = s[j], s[i]
 			i++
 		}
 	}
 	s[i], s[hi] = s[hi], s[i]
-	s[0:i].quickSort()
+	s[:i].quickSort()
 	s[i+1:].quickSort()
 	return
 }
