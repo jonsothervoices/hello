@@ -111,7 +111,7 @@ func (s sortableSlice) quickSort() {
 	return
 }
 
-//Radix Sort (max 4-digit numbers)
+//Radix Sort (base 10)
 func (s sortableSlice) radixSort() {
 	max := 0
 	for _, v := range s {
@@ -149,3 +149,32 @@ func getDigit(a, digit, current int) int {
 }
 
 //10.1: sorted Merge: Given 2 sorted arrays A and B, where A has a large enough buffer at the end to hold B, merge B into A.
+//3:05~~
+func sortedMerge(a, b sortableSlice) sortableSlice {
+	ret := sortableSlice{}
+	indexA := 0
+	indexB := 0
+	for indexA < len(a) || indexB < len(b) {
+		if indexA == len(a) {
+			return append(ret, b[indexB:]...)
+		}
+		if indexB == len(b) {
+			return append(ret, a[indexA:]...)
+		}
+		if a[indexA] < b[indexB] {
+
+			ret = append(ret, a[indexA])
+			indexA++
+			continue
+		}
+		if a[indexA] > b[indexB] {
+			ret = append(ret, b[indexB])
+			indexB++
+			continue
+		}
+		ret = append(ret, a[indexA], b[indexB])
+		indexB++
+		indexA++
+	}
+	return ret
+}
