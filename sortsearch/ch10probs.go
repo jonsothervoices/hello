@@ -1,7 +1,5 @@
 package sortsearch
 
-import "fmt"
-
 type sortableSlice []int
 
 //Bubble Sort
@@ -115,23 +113,20 @@ func (s sortableSlice) quickSort() {
 
 //Radix Sort (max 4-digit numbers)
 func (s sortableSlice) radixSort() {
-	//find max
 	max := 0
 	for _, v := range s {
 		if v > max {
 			max = v
 		}
 	}
-	//find how many digits max has
 	digits := 0
 	for max > 0 {
 		digits++
 		max /= 10
-		//create buckets
 		buckets := [10]sortableSlice{}
 		for _, v := range s {
-			d := getDigit(v, digits, 1)
-			buckets[d] = append(buckets[d], v)
+			n := getDigit(v, digits, 1)
+			buckets[n] = append(buckets[n], v)
 		}
 		for i := range buckets {
 			if i == 0 {
@@ -143,13 +138,11 @@ func (s sortableSlice) radixSort() {
 			s[i] = buckets[9][i]
 		}
 	}
-	fmt.Println(s)
 	return
 }
 
 func getDigit(a, digit, current int) int {
-	//exit condition
-	if digit == current {
+	if current == digit {
 		return a % 10
 	}
 	return getDigit(a/10, digit, current+1)
