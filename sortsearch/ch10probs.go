@@ -149,7 +149,7 @@ func getDigit(a, digit, current int) int {
 }
 
 //10.1: sorted Merge: Given 2 sorted arrays A and B, where A has a large enough buffer at the end to hold B, merge B into A.
-//3:05~~
+//3:05~~3:49
 func sortedMerge(a, b sortableSlice) sortableSlice {
 	ret := sortableSlice{}
 	indexA := 0
