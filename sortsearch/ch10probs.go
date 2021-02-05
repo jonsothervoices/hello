@@ -1,5 +1,7 @@
 package sortsearch
 
+import "math"
+
 type sortableSlice []int
 
 //Bubble Sort
@@ -146,6 +148,50 @@ func getDigit(a, digit, current int) int {
 		return a % 10
 	}
 	return getDigit(a/10, digit, current+1)
+}
+
+//Binary search (assuming sorted slice)
+//3:41~~5:07
+func binarySearch(s sortableSlice, v int) int {
+	if len(s) == 0 {
+		return -1
+	}
+	if len(s) == 1 {
+		if s[0] == v {
+			return 0
+		}
+		return -1
+	}
+	//find midpoint
+	mid := len(s) / 2
+	midAlt := int(math.Min(float64(mid+1), float64(len(s)-1)))
+	//if midpoint is greater than v, return recurse on first half
+	if s[mid] >= v {
+		if len(s) == 2 {
+			switch v {
+			case s[0]:
+				{
+					return 0
+				}
+			case s[1]:
+				{
+					return 1
+				}
+			default:
+				{
+					return -1
+				}
+			}
+		}
+		return binarySearch(s[:midAlt], v)
+	}
+	//if less, recurse on second half
+	ret := binarySearch(s[midAlt:], v)
+	//if rec is -1, return -1
+	if ret >= 0 {
+		return ret + midAlt
+	}
+	return ret
 }
 
 //10.1: sorted Merge: Given 2 sorted arrays A and B, where A has a large enough buffer at the end to hold B, merge B into A.
