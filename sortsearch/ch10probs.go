@@ -150,9 +150,38 @@ func getDigit(a, digit, current int) int {
 	return getDigit(a/10, digit, current+1)
 }
 
-//Binary search (assuming sorted slice)
-//3:41~~5:07
+//Standard Binary Search
 func binarySearch(s sortableSlice, v int) int {
+	if len(s) == 0 {
+		return -1
+	}
+	if len(s) == 1 {
+		if s[0] == v {
+			return 0
+		}
+		return -1
+	}
+	//find midpoint
+	mid := len(s) / 2
+	//if midpoint is greater than v, return recurse on first half
+	if s[mid] == v {
+		return mid
+	}
+	if s[mid] > v {
+		return binarySearch(s[:mid], v)
+	}
+	//if less, recurse on second half
+	ret := binarySearch(s[mid:], v)
+	//if rec is -1, return -1
+	if ret >= 0 {
+		return ret + mid
+	}
+	return ret
+}
+
+//Binary search (return first))
+//3:41~~5:07
+func binarySearchWithDupes(s sortableSlice, v int) int {
 	if len(s) == 0 {
 		return -1
 	}
