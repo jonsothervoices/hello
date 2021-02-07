@@ -212,10 +212,10 @@ func binarySearchWithDupes(s sortableSlice, v int) int {
 				}
 			}
 		}
-		return binarySearch(s[:midAlt], v)
+		return binarySearchWithDupes(s[:midAlt], v)
 	}
 	//if less, recurse on second half
-	ret := binarySearch(s[midAlt:], v)
+	ret := binarySearchWithDupes(s[midAlt:], v)
 	//if rec is -1, return -1
 	if ret >= 0 {
 		return ret + midAlt
@@ -250,6 +250,19 @@ func sortedMerge(a, b sortableSlice) sortableSlice {
 		ret = append(ret, a[indexA], b[indexB])
 		indexB++
 		indexA++
+	}
+	return ret
+}
+
+//10.8 find duplicates: Given a array of integers from 1 to N, write an algorithm to generate all duplicates.
+//2:58~~3:11
+func findDupes(s sortableSlice) (ret sortableSlice) {
+	m := make(map[int]int)
+	for _, v := range s {
+		if m[v] == 1 {
+			ret = append(ret, v)
+		}
+		m[v]++
 	}
 	return ret
 }
