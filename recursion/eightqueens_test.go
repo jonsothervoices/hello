@@ -1,14 +1,16 @@
 package recursion
 
 import (
+	"fmt"
 	"testing"
 )
 
 func TestEightQueens(t *testing.T) {
 	actual := eightQueens(board{}, 0)
 	if len(actual) != 92 {
-		t.Errorf("actual %v, expected 96", len(actual))
+		t.Errorf("actual %v, expected 92", len(actual))
 	}
+	fmt.Println(actual)
 }
 
 func TestIsAllowed(t *testing.T) {
