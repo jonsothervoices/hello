@@ -182,7 +182,9 @@ func (t *bst) traverse() (out []int) {
 	if t.Left != nil {
 		out = append(out, t.Left.traverse()...)
 	}
+
 	out = append(out, t.Data)
+
 	if t.Right != nil {
 		out = append(out, t.Right.traverse()...)
 	}
