@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hello/mathexercises"
+	"go_sandbox/mathexercises"
 )
 
 func main() {
